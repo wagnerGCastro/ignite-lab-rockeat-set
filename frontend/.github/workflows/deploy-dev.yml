@@ -1,0 +1,48 @@
+
+
+name: deployDevelopment
+on:
+  push:
+    branches: dev
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    env:
+      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+    environment:
+      name: dev
+
+    steps:
+      - name: 🚚 Get latest code
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+      
+      - name: Use Node.js 14
+        uses: actions/setup-node@v2
+        with:
+          node-version: 14.x
+
+      - name: Cache Yarn dependencies
+        uses: actions/cache@v1
+        with:
+          path: ~/.cache/yarn
+          key: ${{ runner.OS }}-yarn-${{ hashFiles(format('{0}-{1}', github.workspace, '/yarn.lock')) }}
+          restore-keys: |
+            ${{ runner.OS }}-yarn-
+    
+      - name: 🔨 Build Project
+        run: |
+          yarn install
+          yarn build:static
+
+      - name: 📂 FTP Deploy to Server
+        uses: SamKirkland/FTP-Deploy-Action@4.0.0
+        with:
+          server: ${{ secrets.dev_ftp_hostname }}
+          username: ${{ secrets.dev_ftp_user }}
+          password: ${{ secrets.dev_ftp_pass }}
+          local-dir: build_static/

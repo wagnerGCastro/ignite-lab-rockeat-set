@@ -1,0 +1,41 @@
+name: ci
+on: 
+  pull_request:
+    branches: dev
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+
+      - name: Setup Node
+        uses: actions/setup-node@v1
+        with:
+          node-version: 14.x
+
+      - name: Cache Yarn dependencies
+        uses: actions/cache@v1
+        with:
+          path: ~/.cache/yarn
+          key: ${{ runner.OS }}-yarn-${{ hashFiles(format('{0}-{1}', github.workspace, '/yarn.lock')) }}
+          restore-keys: |
+            ${{ runner.OS }}-yarn-
+  
+      - name: Install dependencies
+        run: yarn install
+
+      - name: Check Lintings
+        run: yarn lint
+
+      - name: Check Tests
+        run: yarn test:ci
+
+      - name: Check commit message
+        uses: wagoid/commitlint-github-action@v4
+
+      - name: Build Project
+        run: yarn build

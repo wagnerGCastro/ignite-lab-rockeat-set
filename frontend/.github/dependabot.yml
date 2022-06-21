@@ -1,0 +1,18 @@
+version: 2
+updates:
+- package-ecosystem: npm
+  directory: "/"
+  schedule:
+    interval: daily
+  labels:
+    - "npm"
+    - "dependencies"
+  open-pull-requests-limit: 10
+  reviewers:
+    - wagnerGCastro
+  assignees:
+    - wagnerGCastro
+  commit-message:
+    prefix: "Update dependencies"
+    prefix-development: chore
+    include: scope
