@@ -50,6 +50,12 @@ yarn test
 - [DEV.to](https://dev.to/@wagnerGCastro)
 - [LinkedIn](https://www.linkedin.com/in/@wagnerGCastro)
 
+## Links Utilies
+- [Ignite Lab](https://evento.rocketseat.com.br/ignite-lab/episodios/react/abertura/edicao/1)
+- [Clonoe grap.cms] (https://app.graphcms.com/clone/f411e65e5587442cb48a90a21447a535?name=Ignite%20Lab%2002)
+- [Figma] (https://www.figma.com/community/file/1120711251998877938)
+
+
 ## Comands
   # How do I test a single file using Jest
     $ npm test -- __tests__/units/calculator.test.ts
