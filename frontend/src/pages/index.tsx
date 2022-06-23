@@ -3,6 +3,7 @@ import { GetServerSideProps } from 'next';
 // import { useQuery } from '@apollo/client';
 import { gql } from '@apollo/client';
 import { client } from '@/lib/apollo';
+import { LessonProps } from '@/components/Lesson';
 
 interface Lesson {
   id: string;
@@ -46,7 +47,6 @@ export const getServerSideProps: GetServerSideProps = async () => {
     }
   `;
 
-  // const data = useQuery<{ lessons: Lesson[] }>(GET_LESSONS_QUERY);
   const { data } = await client.query<{ lessons: Lesson[] }>({ query: GET_LESSONS_QUERY });
 
   return {
