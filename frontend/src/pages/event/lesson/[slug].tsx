@@ -1,13 +1,16 @@
 import React from 'react';
 import Head from 'next/head';
 import { GetServerSideProps } from 'next';
-import { gql } from '@apollo/client';
+import { gql, useQuery } from '@apollo/client';
+import { useRouter } from 'next/router';
 import { client } from '@/lib/apollo';
 
 import Header from '@/components/Header';
 import Sidebar from '@/components/Sidebar';
 import { LessonProps } from '@/components/Lesson';
-import Video from '@/components/Video';
+import Video, { VideoProps } from '@/components/Video';
+
+import { VideoWrapper } from './styles';
 
 export interface GetLessonQueryResponse {
   lessons: Array<LessonProps>;
@@ -31,11 +34,43 @@ export const getServerSideProps: GetServerSideProps = async () => {
   });
 
   return {
-    props: { data },
+    props: { lessons: data },
   };
 };
 
-export default function Event({ data }) {
+export default function Event({ lessons }) {
+  const router = useRouter();
+  const { slug } = router.query;
+
+  const GET_LESSON_QUERY = gql`
+    query GetLessonBySlug($slug: String) {
+      lesson(where: { slug: $slug }) {
+        id
+        title
+        slug
+        videoId
+        description
+        teacher {
+          bio
+          avatarURL
+          name
+        }
+      }
+    }
+  `;
+
+  const { data, loading, error } = useQuery<VideoProps>(GET_LESSON_QUERY, {
+    variables: { slug },
+  });
+
+  if (loading) {
+    return <h2>Loading...</h2>;
+  }
+
+  if (error) {
+    return <h2>Error: {error}</h2>;
+  }
+
   return (
     <>
       <Head>
@@ -46,8 +81,8 @@ export default function Event({ data }) {
       <Header />
       <section className="flex flex-col min-h-screen">
         <main className="flex flex-1">
-          <Video />
-          <Sidebar data={data} />
+          {slug && data?.lesson ? <Video lesson={data.lesson} /> : <VideoWrapper> </VideoWrapper>}
+          <Sidebar data={lessons} />
         </main>
       </section>
     </>
