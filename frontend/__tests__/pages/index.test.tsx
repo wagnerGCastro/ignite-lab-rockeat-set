@@ -5,8 +5,8 @@ import Home from '@/pages/index';
 describe('Pages', () => {
   describe('Home', () => {
     it('should render without throwing an error', () => {
-      const wrap = mount(<Home />);
-      expect(wrap.find('h1').text()).toBe('React Avançado');
+      const wrap = mount(<Home data={[]} />);
+      expect(wrap.find('h1').text()).toBe('Hello world!');
     });
   });
 });
