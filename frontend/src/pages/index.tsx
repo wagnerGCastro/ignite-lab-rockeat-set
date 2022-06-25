@@ -1,55 +1,50 @@
 import React from 'react';
-import { GetServerSideProps } from 'next';
-import { useRouter } from 'next/router';
-// import { useQuery } from '@apollo/client';
-import { gql } from '@apollo/client';
-import { client } from '@/lib/apollo';
+import Image from 'next/image';
+import { LogoSVG } from '@/components/LogoSVG';
 
-interface Lesson {
-  id: string;
-  title: string;
-  teacher: {
-    name: string;
-  };
-}
-
-export default function Home({ data }) {
+export default function Home() {
   return (
-    <>
-      <h1 className="text-5xl font-bold text-violet-500 underline">Hello world!</h1>
+    <div className="min-h-screen bg-blur bg-cover bg-no-repeat flex flex-col items-center">
+      <div className="w-full max-w-[1100px] flex items-center justify-between mt-20 mx-auto">
+        <div className="max-w-[640px]">
+          <LogoSVG />
 
-      {data?.lessons.map((lesson: Lesson) => {
-        return (
-          <ul key={lesson.id}>
-            <li className="py-4 flex">
-              <div className="ml-30">
-                <h3 className="text-2xl text-zinc-100">{lesson.title}</h3>
-                <p className="text-sm font-medium text-zinc-100">{lesson.teacher.name}</p>
-              </div>
-            </li>
-          </ul>
-        );
-      })}
-    </>
+          <h1 className="mt-8 text-[2.5rem] leading-tight">
+            Contrua uma <strong className="text-blue-500">aplicação completa</strong>, do zero, com{' '}
+            <strong className="text-blue-500">React</strong>
+          </h1>
+          <p className="mt-4 text-gray-200 leading-relaxed">
+            Em apenas uma semana você vai dominar na prática uma das tecnologias mais utilizadas e
+            com alta demanda para acessar as melhores oportunidades do mercado.
+          </p>
+        </div>
+
+        <div className="p-8 bg-gray-700 border border-gray-500 rounded">
+          <strong className="text-2xl mb-6 block">Inscreva-se gratuitamente</strong>
+
+          <form action="" className="flex flex-col gap-2 full">
+            <input
+              className="bg-gray-900 rounded px-5 h-14"
+              type="text"
+              placeholder="Seu nome completo"
+            />
+
+            <input
+              className="bg-gray-900 rounded px-5 h-14"
+              type="text"
+              placeholder="Seu nome completo"
+            />
+
+            <button
+              type="submit"
+              className="mt-4 bg-green-500 uppercase p-4 rounded font-bold text-sm hover:bg-green-700 transition-colors"
+            >
+              GARANTIR MINHA VAGA
+            </button>
+          </form>
+        </div>
+      </div>
+      <Image src="/img/code-mockup.png" alt="mockup" width="1216" height="650" className="mt-10" />
+    </div>
   );
 }
-
-export const getServerSideProps: GetServerSideProps = async () => {
-  const GET_LESSONS_QUERY = gql`
-    query {
-      lessons {
-        id
-        title
-        teacher {
-          name
-        }
-      }
-    }
-  `;
-
-  const { data } = await client.query<{ lessons: Lesson[] }>({ query: GET_LESSONS_QUERY });
-
-  return {
-    props: { data },
-  };
-};
