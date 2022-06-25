@@ -1,6 +1,8 @@
 import React from 'react';
 import { AppProps } from 'next/app';
 import Head from 'next/head';
+import { ApolloProvider } from '@apollo/client';
+import { client } from '@/lib/apollo';
 
 import '../assets/styles/global.css';
 
@@ -18,8 +20,9 @@ const App = ({ Component, pageProps }: AppProps) => {
           content="A simple project starter to work with TypeScript, React, NextJS and Styled Components"
         />
       </Head>
-
-      <Component {...pageProps} />
+      <ApolloProvider client={client}>
+        <Component {...pageProps} />
+      </ApolloProvider>
     </>
   );
 };
