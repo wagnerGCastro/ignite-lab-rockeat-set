@@ -1,5 +1,6 @@
 import React from 'react';
 import Head from 'next/head';
+import styled from 'styled-components';
 import { GetServerSideProps } from 'next';
 import { gql, useQuery } from '@apollo/client';
 import { useRouter } from 'next/router';
@@ -10,7 +11,10 @@ import Sidebar from '@/components/Sidebar';
 import { LessonProps } from '@/components/Lesson';
 import Video, { VideoProps } from '@/components/Video';
 
-import { VideoWrapper } from './styles';
+export const VideoWrapper = styled.div`
+  flex: 1;
+  max-width: calc(100% - 348px);
+`;
 
 export interface GetLessonQueryResponse {
   lessons: Array<LessonProps>;
