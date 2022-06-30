@@ -1,38 +1,26 @@
 import React from 'react';
-import Lesson from '../Lesson';
+import Lesson, { LessonProps } from '@/components/Lesson';
 
-const Siderbar: React.FC = () => {
+export default function Sidebar({ data }) {
   return (
-    <aside className="w-[348] bg-gray-700 p-6 border-gray-600">
+    <aside className="w-[348px] bg-gray-700 p-6 border-gray-600">
       <span className="font-bold text-2xl pb-6 mb-6 border-b border-gray-500 block">
         Cronograma de aulas
       </span>
 
       <section className="flex flex-col gap-8">
-        <Lesson
-          title="Abertura do envento Ignite Labs"
-          availableAt="Domingo • 20 de junho • 19h00"
-          type="live"
-          slug="abertura-do-nvento-ignite-labs"
-          isLessonAvaible
-        />
-        <Lesson
-          title="Abertura do envento Ignite Labs"
-          availableAt="Domingo • 20 de junho • 19h00"
-          type="class"
-          slug="abertura-do-nvento-ignite-labs"
-          isLessonAvaible={false}
-        />
-        <Lesson
-          title="Abertura do envento Ignite Labs"
-          availableAt="Domingo • 20 de junho • 19h00"
-          type="live"
-          slug="abertura-do-nvento-ignite-labs"
-          isLessonAvaible
-        />
+        {data?.lessons.map((lesson: LessonProps) => {
+          return (
+            <Lesson
+              key={lesson.id}
+              title={lesson.title}
+              availableAt={new Date(lesson.availableAt)}
+              lessonType={lesson.lessonType}
+              slug={lesson.slug}
+            />
+          );
+        })}
       </section>
     </aside>
   );
-};
-
-export default Siderbar;
+}

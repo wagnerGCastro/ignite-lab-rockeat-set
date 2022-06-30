@@ -7,10 +7,6 @@ export default class MyDocument extends Document {
       <Html lang="pt-BR">
         <Head>
           <meta name="theme-color" content="#06092B" />
-          <meta
-            name="viewport"
-            content="width=device-width, initial-scale=1.0, maximum-scale=1.0"
-          />
           <link rel="icon" href="/img/icon-512.png" />
           <link rel="apple-touch-icon" href="/img/icon-512.png" />
           <link rel="manifest" href="/manifest.json" />
