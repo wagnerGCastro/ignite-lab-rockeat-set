@@ -1,9 +1,9 @@
 import React from 'react';
 import { GetServerSideProps } from 'next';
+import { useRouter } from 'next/router';
 // import { useQuery } from '@apollo/client';
 import { gql } from '@apollo/client';
 import { client } from '@/lib/apollo';
-import { LessonProps } from '@/components/Lesson';
 
 interface Lesson {
   id: string;
